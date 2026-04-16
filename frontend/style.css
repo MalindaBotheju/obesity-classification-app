@@ -1,0 +1,140 @@
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background: #f4f7f6; 
+    color: #333; 
+    display: flex; 
+    justify-content: center; 
+    padding: 20px; 
+}
+
+.container { 
+    background: white; 
+    padding: 30px; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+    max-width: 800px; 
+    width: 100%; 
+}
+
+h1 { 
+    color: #2c3e50; 
+    text-align: center; 
+}
+
+/* Form Grid */
+.grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 15px; 
+    margin-bottom: 20px; 
+}
+
+.form-group { 
+    display: flex; 
+    flex-direction: column; 
+}
+
+label { 
+    font-weight: bold; 
+    margin-bottom: 5px; 
+    font-size: 0.9em; 
+}
+
+input, select { 
+    padding: 10px; 
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+}
+
+/* Main Buttons */
+button { 
+    width: 100%; 
+    padding: 12px; 
+    background: #27ae60; 
+    color: white; 
+    border: none; 
+    border-radius: 4px; 
+    font-size: 1.1em; 
+    cursor: pointer; 
+    transition: background 0.3s; 
+}
+
+button:hover { 
+    background: #219150; 
+}
+
+/* Single Prediction Result */
+#resultContainer { 
+    margin-top: 30px; 
+    padding: 20px; 
+    border-radius: 4px; 
+    text-align: center; 
+    background: #e8f8f5; 
+    border: 1px solid #27ae60; 
+}
+
+.hidden { 
+    display: none; 
+}
+
+/* --- NEW: Batch Section Styles --- */
+hr.divider {
+    margin: 40px 0;
+    border: 0;
+    border-top: 1px solid #ccc;
+}
+
+.batch-section {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 20px;
+    background: #f9fbfd;
+    border: 1px dashed #b0c4de;
+    border-radius: 8px;
+}
+
+.batch-section h2 {
+    color: #2c3e50;
+    margin-top: 0;
+}
+
+.batch-section p {
+    margin-bottom: 15px;
+}
+
+#csvFileInput {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: white;
+    width: 80%;
+    max-width: 300px;
+    cursor: pointer;
+}
+
+#batchSubmitBtn {
+    background: #2c3e50;
+    width: auto;
+    min-width: 220px;
+}
+
+#batchSubmitBtn:hover {
+    background: #1a252f;
+}
+
+#batchSubmitBtn:disabled {
+    background: #95a5a6;
+    cursor: not-allowed;
+}
+
+#batchStatus {
+    margin-top: 15px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* --- NEW: Mobile Responsiveness --- */
+@media (max-width: 600px) {
+    .grid {
+        grid-template-columns: 1fr; /* Stack columns on small screens */
+    }
+}

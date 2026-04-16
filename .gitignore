@@ -1,0 +1,18 @@
+# Ignore Virtual Environments
+venv/
+backend/venv/
+
+# Ignore Environment Variables (Passwords/Secrets)
+.env
+backend/.env
+
+# Ignore Python Cache
+__pycache__/
+*.pyc
+
+# Ignore OS generated files
+.DS_Store
+
+# Ignore Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/

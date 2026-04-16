@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obesity Risk Predictor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Obesity Classification Predictor</h1>
+        <p>Enter details below to predict obesity category based on ML model.</p>
+        
+        <form id="predictionForm">
+            <div class="grid">
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select name="Gender" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" name="Age" step="1" value="21" required>
+                </div>
+                <div class="form-group">
+                    <label>Height (m)</label>
+                    <input type="number" name="Height" step="0.01" value="1.62" required>
+                </div>
+                <div class="form-group">
+                    <label>Weight (kg)</label>
+                    <input type="number" name="Weight" step="0.01" value="64" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Family History with Overweight?</label>
+                    <select name="family_history_with_overweight" required>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Eat High Caloric Food (FAVC)?</label>
+                    <select name="FAVC" required>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Vegetable Consumption (FCVC)</label>
+                    <input type="number" name="FCVC" step="1" min="1" max="3" value="2">
+                </div>
+                <div class="form-group">
+                    <label>Main Meals Daily (NCP)</label>
+                    <input type="number" name="NCP" step="1" min="1" max="4" value="3">
+                </div>
+                <div class="form-group">
+                    <label>Food Between Meals (CAEC)</label>
+                    <select name="CAEC" required>
+                        <option value="no">No</option>
+                        <option value="Sometimes">Sometimes</option>
+                        <option value="Frequently">Frequently</option>
+                        <option value="Always">Always</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Smoke?</label>
+                    <select name="SMOKE" required>
+                        <option value="no">No</option>
+                        <option value="yes">Yes</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Daily Water (CH2O)</label>
+                    <input type="number" name="CH2O" step="1" min="1" max="3" value="2">
+                </div>
+                <div class="form-group">
+                    <label>Monitor Calories (SCC)?</label>
+                    <select name="SCC" required>
+                        <option value="no">No</option>
+                        <option value="yes">Yes</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Physical Activity (FAF)</label>
+                    <input type="number" name="FAF" step="1" min="0" max="3" value="1">
+                </div>
+                <div class="form-group">
+                    <label>Time using Tech (TUE)</label>
+                    <input type="number" name="TUE" step="1" min="0" max="2" value="1">
+                </div>
+                <div class="form-group">
+                    <label>Alcohol (CALC)</label>
+                    <select name="CALC" required>
+                        <option value="no">No</option>
+                        <option value="Sometimes">Sometimes</option>
+                        <option value="Frequently">Frequently</option>
+                        <option value="Always">Always</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Transportation</label>
+                    <select name="MTRANS" required>
+                        <option value="Public_Transportation">Public Transportation</option>
+                        <option value="Automobile">Automobile</option>
+                        <option value="Walking">Walking</option>
+                        <option value="Motorbike">Motorbike</option>
+                        <option value="Bike">Bike</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" id="submitBtn">Predict Status</button>
+        </form>
+
+        <div id="resultContainer" class="hidden">
+            <h2>Result: <span id="predictionText">---</span></h2>
+        </div>
+
+        <hr class="divider">
+
+        <div class="batch-section">
+            <p>Upload a CSV file of multiple patients to predict and save all at once.</p>
+            
+            <input type="file" id="csvFileInput" accept=".csv">
+            <br>
+            <button type="button" id="batchSubmitBtn">
+                Predict Batch
+            </button>
+            <p id="batchStatus"></p>
+        </div>
+
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
