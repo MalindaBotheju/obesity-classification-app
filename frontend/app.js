@@ -22,7 +22,7 @@ document.getElementById('predictionForm').addEventListener('submit', async (e) =
     data['Age'] = parseInt(data['Age'], 10);
 
     try {
-        const response = await fetch('http://localhost:8000/predict', {
+        const response = await fetch('https://obesity-classification-app-z9sy.onrender.com/predict', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -68,7 +68,7 @@ document.getElementById('batchSubmitBtn').addEventListener('click', async () => 
     statusText.style.color = "#0066cc";
 
     try {
-        const response = await fetch("http://localhost:8000/predict_batch", {
+        const response = await fetch("https://obesity-classification-app-z9sy.onrender.com/predict/batch", {
             method: "POST",
             body: formData // No Content-Type header needed for FormData; the browser sets it automatically
         });
