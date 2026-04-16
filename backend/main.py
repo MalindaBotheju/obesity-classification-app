@@ -128,7 +128,7 @@ def predict(patient: PatientData, db: Session = Depends(get_db)):
     # 4. Return the result to the frontend
     return {"prediction": result}
 
-@app.post("/predict_batch")
+@app.post("/predict/batch")
 async def predict_batch(file: UploadFile = File(...), db: Session = Depends(get_db)):
     # 1. Read the uploaded CSV file
     content = await file.read()
