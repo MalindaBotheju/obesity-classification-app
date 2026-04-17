@@ -3,14 +3,26 @@
 A production-grade, end-to-end Machine Learning application that classifies patient obesity risk levels based on physical and lifestyle data. This project features a full CI/CD pipeline and a decoupled architecture, deployed across Render, Vercel, and Supabase.
 
 ## 🚀 Live Demo
-* **Frontend Web App:** https://obesity-classification-app.vercel.app
-* **Backend API Docs:** https://obesity-classification-app-z9sy.onrender.com/docs
+<div align="center">
+
+[![Live Web App](https://img.shields.io/badge/Vercel-Live_Web_App-black?style=for-the-badge&logo=vercel)](https://obesity-classification-app.vercel.app)
+[![Backend API Docs](https://img.shields.io/badge/Render-Backend_API_Docs-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://obesity-classification-app-z9sy.onrender.com/docs)
+
+</div>
 
 ## ✨ Key Features
 * **Individual Prediction:** Instant classification via a clean web form.
 * **Batch processing:** Upload hospital CSV files to process hundreds of patients at once.
 * **Cloud Persistence:** All predictions are automatically logged to a Supabase PostgreSQL database.
 * **Automated Workflow:** GitHub Actions tests code integrity on every push.
+
+## 🛠 Tech Stack
+![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=flat-square&logo=fastapi)
+![Scikit-Learn](https://img.shields.io/badge/scikit_learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat-square&logo=supabase&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
 
 ## ⚙️ Architecture & Data Flow
 The image below illustrates how the different services interact to process data and make predictions:
