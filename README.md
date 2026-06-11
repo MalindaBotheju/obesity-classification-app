@@ -107,16 +107,15 @@ Download the project files to your local machine and navigate into the root dire
       cd obesity-classification-app
       ```
 
-### 2. Environment Setup
+### 3. Environment Setup
 
-Before spinning up the containers, you need to provide your database connection string so the backend can securely communicate with Supabase.
+Add the database connection string so the backend can securely communicate with Supabase.
 
-1. **Create your local `.env` file:** Create a new file named `.env` inside the `backend/` directory.
-2. **Add your Supabase URL:** Paste your connection string into the file:
-   
-```
-  SUPABASE_URL=paste_your_real_URL_here
-```
+  * **Create your local `.env` file:** Create a new file named `.env` inside the `backend/` directory.
+  * **Add your Supabase URL:** Paste your connection string into the file:  
+    ```
+      SUPABASE_URL=paste_your_real_URL_here
+    ```
 
 ### 3. Frontend Configuration
 
