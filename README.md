@@ -127,20 +127,24 @@ Ensure your frontend is configured to communicate with the local backend contain
     API_URL: "http://localhost:8000"
     ```
 
-### 4. Running the Application
+### 5. Running the Application
 
 With Docker Compose configured, you can build and start the entire stack with a single command.
 
-1. **Open your terminal** in the root directory of the project (where the `docker-compose.yml` file is located).
-2. **Build and start the containers:**
-```bash
-docker-compose up --build
+  * **Open your terminal** in the root directory of the project (where the `docker-compose.yml` file is located).
+  * **Build and start the containers:**
+    Windows:
+    ```bash
+    docker-compose up --build
+    ```
 
-```
+    Linux:
+    ```bash
+    sudo docker-compose up --build
+    ```
 
-
-*(Note: You only need the `--build` flag the first time or when you make changes to the `Dockerfile` or `requirements.txt`. For subsequent runs, just `docker-compose up` is sufficient.)*
-3. **Access the web app:** Once the containers are running, open your web browser and navigate to the frontend port mapped in your compose file (typically `http://localhost` or `http://localhost:3000`). Your backend API documentation will be accessible at `http://localhost:8000/docs`.
+* **Access the web app:** Once the containers are running, open your web browser and navigate to the frontend port mapped in your compose file (typically `http://localhost` or `http://localhost:3000`). Your backend API documentation will be accessible at `http://localhost:8000/docs`.
+* **Access the backend API documentation:**
 4. **Shutting down:** To stop the application, press `Ctrl + C` in your terminal, or open a new terminal in the root directory and run:
 ```bash
 docker-compose down
