@@ -45,6 +45,7 @@ obesity-classification/
 │   └── test_main.py                    # Unit tests for the API
 ├── frontend/                           # Vanilla JS Web Interface
 │   ├── app.js                          # Frontend logic and API requests
+│   ├── config.js                       # Environment-specific API configuration
 │   ├── Dockerfile                      # Frontend container configuration
 │   ├── index.html                      # Main user interface
 │   └── style.css                       # Application styling
@@ -56,6 +57,37 @@ obesity-classification/
 ├── obesity-dataset.csv                 # Original training dataset
 └── README.md                           # Project documentation
 ```
+
+## 🧠 Machine Learning Pipeline & Architecture
+
+The core of this application is a predictive engine trained on clinical and lifestyle data. Rather than just deploying a raw model file, the training pipeline exports a unified, production-ready asset containing both the trained estimator and the required mathematical preprocessors.
+
+### 📊 Model Selection & Performance
+After evaluating multiple algorithmic approaches in the `obesity_classification.ipynb` notebook, a **Support Vector Machine (SVM)** classifier was chosen for its strong generalization margins on behavioral feature sets.
+
+* **Algorithm:** Support Vector Classifier (SVC)
+* **Kernel:** Radial Basis Function (RBF)
+* **Optimization:** Hyperparameter tuned via `GridSearchCV`
+* **Validation Strategy:** Stratified K-Fold cross-validation to prevent class imbalance leakages.
+
+### 🛠️ Data Preprocessing & Pipeline Architecture
+To ensure zero training-serving data skew between your local notebook and the live FastAPI backend, data transformations are serialized into a single pipeline. When a prediction request hits the backend, the following steps execute automatically via `obesity_full_pipeline.joblib`:
+
+1. **Missing Value Imputation:** Handled dynamically using a `KNNImputer` to estimate missing data metrics based on neighbor-feature spaces.
+2. **Feature Scaling:** Continuous numeric values (Age, Height, Weight) are normalized via `StandardScaler` to bring variance down to a uniform $(\mu = 0, \sigma = 1)$ distribution.
+3. **Categorical Encoding:** Behavioral attributes (e.g., Smoking habits, Transportation methods, High-calorie intake preferences) are encoded deterministically using robust `LabelEncoder` maps.
+
+### 📈 Training Artifact Serialization
+Once optimal convergence was achieved, the entire pipeline infrastructure was bundled into a dictionary object and serialized using `joblib`:
+
+```python
+model_assets = {
+    "model": best_svm,          
+    "scaler": scaler,         
+    "imputer": knn_imputer,    
+    "label_encoders": encoders   
+}
+joblib.dump(model_assets, 'obesity_full_pipeline.joblib')
 
 ## 🖥️ The Web Interface
 
@@ -122,10 +154,11 @@ Add the database connection string so the backend can securely communicate with 
 Ensure your frontend is configured to communicate with the local backend container rather than the live production server.
 
   * **Open `frontend/configure.js`.**
-  * **Update the `fetch` URLs:** Comment out the live Render URLs and uncomment the localhost lines so they point to your local backend (typically port 8000):
-    ```bash
-    API_URL: "http://localhost:8000"
-    ```
+  * **Update the API Target:** Toggle the active configuration value so the JavaScript engine targets your local environment during execution:
+    ```javascript
+    const CONFIG = {
+        API_URL: "http://localhost:8000"
+    };
 
 ### 5. Running the Application
 
