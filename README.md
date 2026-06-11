@@ -84,10 +84,9 @@ Before spinning up the containers, you need to provide your database connection 
 
 1. **Create your local `.env` file:** Create a new file named `.env` inside the `backend/` directory.
 2. **Add your Supabase URL:** Paste your connection string into the file:
-```env
-# Format: postgresql://postgres:[PASSWORD]@db.[PROJECT_ID].supabase.co:5432/postgres
-DATABASE_URL=paste_your_real_string_here
-
+   
+```
+  SUPABASE_URL: postgresql://postgres:[PASSWORD]@db.[PROJECT_ID].supabase.co:5432/postgresDATABASE_URL=paste_your_real_string_here
 ```
 
 ### 3. Frontend Configuration
