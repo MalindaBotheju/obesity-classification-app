@@ -88,6 +88,7 @@ model_assets = {
     "label_encoders": encoders   
 }
 joblib.dump(model_assets, 'obesity_full_pipeline.joblib')
+```
 
 ## 🖥️ The Web Interface
 
