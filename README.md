@@ -78,6 +78,39 @@ This guide details how to set up and run the complete system on your own machine
 - A Supabase account (or local PostgreSQL database)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running on your machine.
 
+You are absolutely right, I completely skipped the most fundamental step—actually getting the code onto the machine. Good catch.
+
+Here is the revised **Local Development & Testing** section with the cloning and directory navigation steps included right at the beginning.
+
+---
+
+## 💻 Local Development & Testing
+
+This guide details how to set up and run the complete system on your own machine using Docker. Running locally via Docker Compose is the fastest and most reliable way to spin up both the frontend and backend environments simultaneously.
+
+### 1. Prerequisites
+
+* **Git** installed on your machine.
+* **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** installed and running.
+* A **Supabase** account (or local PostgreSQL database).
+* VS Code or your preferred code editor.
+
+### 2. Clone the Repository
+
+Download the project files to your local machine and navigate into the root directory.
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/MalindaBotheju/obesity-classification-app.git
+   ```
+
+
+2. **Navigate into the project folder:**
+```bash
+cd obesity-classification-app
+
+```
+
 ### 2. Environment Setup
 
 Before spinning up the containers, you need to provide your database connection string so the backend can securely communicate with Supabase.
