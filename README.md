@@ -86,7 +86,7 @@ Before spinning up the containers, you need to provide your database connection 
 2. **Add your Supabase URL:** Paste your connection string into the file:
    
 ```
-  SUPABASE_URL: postgresql://postgres:[PASSWORD]@db.[PROJECT_ID].supabase.co:5432/postgresDATABASE_URL=paste_your_real_string_here
+  SUPABASE_URL=paste_your_real_URL_here
 ```
 
 ### 3. Frontend Configuration
