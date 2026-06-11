@@ -107,46 +107,55 @@ Download the project files to your local machine and navigate into the root dire
       cd obesity-classification-app
       ```
 
-### 3. Environment Setup
+### 3. Backend Environment Setup
 
 Add the database connection string so the backend can securely communicate with Supabase.
 
   * **Create your local `.env` file:** Create a new file named `.env` inside the `backend/` directory.
   * **Add your Supabase URL:** Paste your connection string into the file:  
-    ```
-      SUPABASE_URL=paste_your_real_URL_here
+    ```bash
+      DATABASE_URL=postgresql://postgres:[PASSWORD]@db.[PROJECT_ID].supabase.co:5432/postgresDATABASE_URL=paste_your_real_string_here
     ```
 
-### 3. Frontend Configuration
+### 4. Frontend Configuration
 
 Ensure your frontend is configured to communicate with the local backend container rather than the live production server.
 
-1. **Open `frontend/app.js`.**
-2. **Update the `fetch` URLs:** Comment out the live Render URLs and uncomment the localhost lines so they point to your local backend (typically port 8000):
-```javascript
-// -- SINGLE PATIENT --
-// Live Render: https://obesity-classification-app-z9sy.onrender.com/predict
-// Locally: 
-const response = await fetch('http://localhost:8000/predict', { ...
+  * **Open `frontend/configure.js`.**
+  * **Update the `fetch` URLs:** Comment out the live Render URLs and uncomment the localhost lines so they point to your local backend (typically port 8000):
+    ```bash
+    API_URL: "http://localhost:8000"
+    ```
 
-```
-
-### 4. Running the Application
+### 5. Running the Application
 
 With Docker Compose configured, you can build and start the entire stack with a single command.
 
-1. **Open your terminal** in the root directory of the project (where the `docker-compose.yml` file is located).
-2. **Build and start the containers:**
-```bash
-docker-compose up --build
+  * **Open your terminal** in the root directory of the project (where the `docker-compose.yml` file is located).
+  * **Build and start the containers:**
+    
+    Windows:
+    ```bash
+    docker-compose up --build
+    ```
 
-```
+    Linux:
+    ```bash
+    sudo docker-compose up --build
+    ```
 
-
-*(Note: You only need the `--build` flag the first time or when you make changes to the `Dockerfile` or `requirements.txt`. For subsequent runs, just `docker-compose up` is sufficient.)*
-3. **Access the web app:** Once the containers are running, open your web browser and navigate to the frontend port mapped in your compose file (typically `http://localhost` or `http://localhost:3000`). Your backend API documentation will be accessible at `http://localhost:8000/docs`.
-4. **Shutting down:** To stop the application, press `Ctrl + C` in your terminal, or open a new terminal in the root directory and run:
-```bash
-docker-compose down
-
-```
+  * **Access the web app:** Once the containers are running, open your web browser and navigate to the frontend port mapped in your compose file. Typically they might be,
+    ```bash
+    http://localhost
+    ```
+    ```bash
+    http://localhost:3000
+    ```
+  * **Access the backend API documentation:**
+    ```bash
+    http://localhost:8000/docs
+    ```
+  * **Shutting down:** To stop the application, press `Ctrl + C` in your terminal, or open a new terminal in the root directory and run:
+    ```bash
+    docker-compose down
+    ```
