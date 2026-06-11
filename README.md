@@ -90,25 +90,22 @@ This guide details how to set up and run the complete system on your own machine
 
 ### 1. Prerequisites
 
-* **Git** installed on your machine.
-* **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** installed and running.
-* A **Supabase** account (or local PostgreSQL database).
-* VS Code or your preferred code editor.
+   * **Git** installed on your machine.
+   * **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** installed and running.
+   * A **Supabase** account (or local PostgreSQL database).
+   * VS Code or your preferred code editor.
 
 ### 2. Clone the Repository
 
 Download the project files to your local machine and navigate into the root directory.
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/MalindaBotheju/obesity-classification-app.git
-   ```
-   
-2. **Navigate into the project folder:**
-```bash
-cd obesity-classification-app
-
-```
+   * **Clone the repository:**
+      ```bash
+      git clone https://github.com/MalindaBotheju/obesity-classification-app.git
+      ```
+   * **Navigate into the project folder:**
+      ```bash
+      cd obesity-classification-app
+      ```
 
 ### 2. Environment Setup
 
