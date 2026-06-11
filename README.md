@@ -103,8 +103,7 @@ Download the project files to your local machine and navigate into the root dire
    ```bash
    git clone https://github.com/MalindaBotheju/obesity-classification-app.git
    ```
-
-
+   
 2. **Navigate into the project folder:**
 ```bash
 cd obesity-classification-app
