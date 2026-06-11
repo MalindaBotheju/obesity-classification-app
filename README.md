@@ -114,7 +114,7 @@ Add the database connection string so the backend can securely communicate with 
   * **Create your local `.env` file:** Create a new file named `.env` inside the `backend/` directory.
   * **Add your Supabase URL:** Paste your connection string into the file:  
     ```bash
-      DATABASE_URL=paste_your_real_URL_here
+      DATABASE_URL=postgresql://postgres:[PASSWORD]@db.[PROJECT_ID].supabase.co:5432/postgresDATABASE_URL=paste_your_real_string_here
     ```
 
 ### 4. Frontend Configuration
