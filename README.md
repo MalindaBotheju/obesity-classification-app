@@ -133,6 +133,7 @@ With Docker Compose configured, you can build and start the entire stack with a 
 
   * **Open your terminal** in the root directory of the project (where the `docker-compose.yml` file is located).
   * **Build and start the containers:**
+    
     Windows:
     ```bash
     docker-compose up --build
@@ -143,10 +144,18 @@ With Docker Compose configured, you can build and start the entire stack with a 
     sudo docker-compose up --build
     ```
 
-* **Access the web app:** Once the containers are running, open your web browser and navigate to the frontend port mapped in your compose file (typically `http://localhost` or `http://localhost:3000`). Your backend API documentation will be accessible at `http://localhost:8000/docs`.
-* **Access the backend API documentation:**
-4. **Shutting down:** To stop the application, press `Ctrl + C` in your terminal, or open a new terminal in the root directory and run:
-```bash
-docker-compose down
-
-```
+  * **Access the web app:** Once the containers are running, open your web browser and navigate to the frontend port mapped in your compose file. Typically they might be,
+    ```bash
+    http://localhost
+    ```
+    ```bash
+    http://localhost:3000
+    ```
+  * **Access the backend API documentation:**
+    ```bash
+    http://localhost:8000/docs
+    ```
+  * **Shutting down:** To stop the application, press `Ctrl + C` in your terminal, or open a new terminal in the root directory and run:
+    ```bash
+    docker-compose down
+    ```
