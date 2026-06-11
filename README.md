@@ -74,52 +74,52 @@ This view shows the bulk processing feature. Users select a CSV file of patient 
 This guide details how to set up and run the complete system on your own machine. Running locally is the fastest way to test new changes.
 
 ### 1. Prerequisites
-- Python 3.10+
 - VS Code or your preferred editor
 - A Supabase account (or local PostgreSQL database)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running on your machine.
 
-### 2. Backend (FastAPI) Setup
-The backend handles the ML model and database communication.
+### 2. Environment Setup
 
-1.  **Navigate to the backend folder:**
-    ```bash
-    cd backend
-    ```
-2.  **Create and activate a virtual environment:**
-    ```bash
-    python -m venv venv
-    # Windows:
-    .\venv\Scripts\activate
-    # Mac/Linux:
-    source venv/bin/activate
-    ```
-3.  **Install the required libraries:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-4.  **Create your local `.env` file:** Create a new file named `.env` inside the `backend/` folder and add your Supabase connection string:
-    ```env
-    # Format: postgresql://postgres:[PASSWORD]@db.[PROJECT_ID].supabase.co:5432/postgres
-    DATABASE_URL=paste_your_real_string_here
-    ```
-5.  **Start the local backend server:**
-    ```bash
-    uvicorn main:app --reload
-    ```
-    Your API will now be live and accepting requests at `http://127.0.0.1:8000`.
+Before spinning up the containers, you need to provide your database connection string so the backend can securely communicate with Supabase.
 
-### 3. Frontend Setup
-The frontend just needs to know where to find the backend server.
+1. **Create your local `.env` file:** Create a new file named `.env` inside the `backend/` directory.
+2. **Add your Supabase URL:** Paste your connection string into the file:
+```env
+# Format: postgresql://postgres:[PASSWORD]@db.[PROJECT_ID].supabase.co:5432/postgres
+DATABASE_URL=paste_your_real_string_here
 
-1.  **Open `frontend/app.js`.**
-2.  **Change the `fetch` URLs.** Comment out the live Render URLs and uncomment the localhost lines. It should look like this:
-    ```javascript
-    // -- SINGLE PATIENT --
-    //Live Render: [https://obesity-classification-app-z9sy.onrender.com/predict](https://obesity-classification-app-z9sy.onrender.com/predict)
-    //Locally: 
-    const response = await fetch('[http://127.0.0.1:8000/predict](http://127.0.0.1:8000/predict)', { ...
-    ```
-3.  **Open the web page.** Simply double-click `frontend/index.html` to open it in your browser.
+```
 
-## 🦾 Continuous Integration (CI) with GitHub Actions
-This project uses GitHub Actions to automatically test the stability of the backend environment. You can see the build status by clicking on the **Actions** tab of this repository. Every push is verified to ensure it doesn't break.
+### 3. Frontend Configuration
+
+Ensure your frontend is configured to communicate with the local backend container rather than the live production server.
+
+1. **Open `frontend/app.js`.**
+2. **Update the `fetch` URLs:** Comment out the live Render URLs and uncomment the localhost lines so they point to your local backend (typically port 8000):
+```javascript
+// -- SINGLE PATIENT --
+// Live Render: https://obesity-classification-app-z9sy.onrender.com/predict
+// Locally: 
+const response = await fetch('http://localhost:8000/predict', { ...
+
+```
+
+### 4. Running the Application
+
+With Docker Compose configured, you can build and start the entire stack with a single command.
+
+1. **Open your terminal** in the root directory of the project (where the `docker-compose.yml` file is located).
+2. **Build and start the containers:**
+```bash
+docker-compose up --build
+
+```
+
+
+*(Note: You only need the `--build` flag the first time or when you make changes to the `Dockerfile` or `requirements.txt`. For subsequent runs, just `docker-compose up` is sufficient.)*
+3. **Access the web app:** Once the containers are running, open your web browser and navigate to the frontend port mapped in your compose file (typically `http://localhost` or `http://localhost:3000`). Your backend API documentation will be accessible at `http://localhost:8000/docs`.
+4. **Shutting down:** To stop the application, press `Ctrl + C` in your terminal, or open a new terminal in the root directory and run:
+```bash
+docker-compose down
+
+```
