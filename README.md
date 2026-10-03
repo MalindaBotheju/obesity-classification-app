@@ -32,7 +32,6 @@ obesity-app/
 |   |-- requirements.txt             # Python packages
 |   |-- Dockerfile                   # Used by Render
 |   |-- .dockerignore
-|   |-- .env.example                 # Copy this to .env
 |   `-- .env                         # Your real database URL (not uploaded to GitHub)
 |-- frontend/
 |   |-- index.html
