@@ -7,5 +7,3 @@ pandas
 joblib
 python-multipart
 python-dotenv
-pytest
-httpx

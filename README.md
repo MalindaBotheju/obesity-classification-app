@@ -1,195 +1,151 @@
-# 🏥 Obesity Classification & Prediction System
+# Obesity Classification App
 
-A production-grade, end-to-end Machine Learning application that classifies patient obesity risk levels based on physical and lifestyle data. This project features a full CI/CD pipeline and a decoupled architecture, deployed across Render, Vercel, and Supabase.
+A small web app that predicts a person's obesity level from 16 inputs (body details and daily habits).
 
-## 🚀 Live Demo
-<div align="center">
+It does 3 things:
+1. **Single prediction** - fill the form and see the result on the page.
+2. **Batch prediction** - upload a CSV file and predict every row.
+3. **Save to Supabase** - every prediction (all 16 inputs + result + time) is saved in the database.
 
-[![Live Web App](https://img.shields.io/badge/Vercel-Live_Web_App-black?style=for-the-badge&logo=vercel)](https://obesity-classification-app.vercel.app)
-[![Backend API Docs](https://img.shields.io/badge/Render-Backend_API_Docs-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://obesity-classification-app-z9sy.onrender.com/docs)
+## How it works
 
-</div>
-
-## ✨ Key Features
-* **Individual Prediction:** Instant classification via a clean web form.
-* **Batch processing:** Upload hospital CSV files to process hundreds of patients at once.
-* **Cloud Persistence:** All predictions are automatically logged to a Supabase PostgreSQL database.
-* **Automated Workflow:** GitHub Actions tests code integrity on every push.
-
-## 🛠 Tech Stack
-![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=flat-square&logo=fastapi)
-![Scikit-Learn](https://img.shields.io/badge/scikit_learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
-![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat-square&logo=supabase&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
-
-## ⚙️ Architecture & Data Flow
-The image below illustrates how the different services interact to process data and make predictions:
-
-![System Architecture and Data Flow Diagram](images/architecture_diagram.png)
-
-## 📁 Project Structure
-
-```text
-obesity-classification/
-├── .github/                            # GitHub Actions workflows
-├── backend/                            # FastAPI server & ML pipeline
-│   ├── .dockerignore                   # Docker exclusion rules
-│   ├── .env                            # Local environment variables
-│   ├── Dockerfile                      # Backend container configuration
-│   ├── main.py                         # FastAPI application and routes
-│   ├── ml_utils.py                     # Machine learning utility functions
-│   ├── obesity_full_pipeline.joblib    # Trained and saved ML model
-│   ├── requirements.txt                # Python backend dependencies
-│   └── test_main.py                    # Unit tests for the API
-├── frontend/                           # Vanilla JS Web Interface
-│   ├── app.js                          # Frontend logic and API requests
-│   ├── config.js                       # Environment-specific API configuration
-│   ├── Dockerfile                      # Frontend container configuration
-│   ├── index.html                      # Main user interface
-│   └── style.css                       # Application styling
-├── images/                             # Image assets for the README
-├── notes/                              # Additional project notes
-├── .gitignore                          # Git exclusion rules
-├── docker-compose.yml                  # Multi-container Docker configuration
-├── obesity_classification.ipynb        # Jupyter notebook for model training
-├── obesity-dataset.csv                 # Original training dataset
-└── README.md                           # Project documentation
+```
+Frontend (Vercel)
+      |
+      v
+FastAPI (Render)
+  |-- /predict        -> ML model -> Supabase
+  |-- /predict/batch  -> ML model -> Supabase
 ```
 
-## 🧠 Machine Learning Pipeline & Architecture
+## Project structure
 
-The core of this application is a predictive engine trained on clinical and lifestyle data. Rather than just deploying a raw model file, the training pipeline exports a unified, production-ready asset containing both the trained estimator and the required mathematical preprocessors.
-
-### 📊 Model Selection & Performance
-After evaluating multiple algorithmic approaches in the `obesity_classification.ipynb` notebook, a **Support Vector Machine (SVM)** classifier was chosen for its strong generalization margins on behavioral feature sets.
-
-* **Algorithm:** Support Vector Classifier (SVC)
-* **Kernel:** Radial Basis Function (RBF)
-* **Optimization:** Hyperparameter tuned via `GridSearchCV`
-* **Validation Strategy:** Stratified K-Fold cross-validation to prevent class imbalance leakages.
-
-### 🛠️ Data Preprocessing & Pipeline Architecture
-To ensure zero training-serving data skew between your local notebook and the live FastAPI backend, data transformations are serialized into a single pipeline. When a prediction request hits the backend, the following steps execute automatically via `obesity_full_pipeline.joblib`:
-
-1. **Missing Value Imputation:** Handled dynamically using a `KNNImputer` to estimate missing data metrics based on neighbor-feature spaces.
-2. **Feature Scaling:** Continuous numeric values (Age, Height, Weight) are normalized via `StandardScaler` to bring variance down to a uniform $(\mu = 0, \sigma = 1)$ distribution.
-3. **Categorical Encoding:** Behavioral attributes (e.g., Smoking habits, Transportation methods, High-calorie intake preferences) are encoded deterministically using robust `LabelEncoder` maps.
-
-### 📈 Training Artifact Serialization
-Once optimal convergence was achieved, the entire pipeline infrastructure was bundled into a dictionary object and serialized using `joblib`:
-
-```python
-model_assets = {
-    "model": best_svm,          
-    "scaler": scaler,         
-    "imputer": knn_imputer,    
-    "label_encoders": encoders   
-}
-joblib.dump(model_assets, 'obesity_full_pipeline.joblib')
+```
+obesity-app/
+|-- .github/
+|   `-- workflows/
+|       `-- check.yml                # GitHub Actions: checks the model on every push
+|-- backend/
+|   |-- main.py                      # FastAPI app: /predict and /predict/batch
+|   |-- ml_utils.py                  # Preprocessing + model prediction
+|   |-- obesity_full_pipeline.joblib # Trained model
+|   |-- requirements.txt             # Python packages
+|   |-- Dockerfile                   # Used by Render
+|   |-- .dockerignore
+|   |-- .env.example                 # Copy this to .env
+|   `-- .env                         # Your real database URL (not uploaded to GitHub)
+|-- frontend/
+|   |-- index.html
+|   |-- app.js
+|   |-- style.css
+|   `-- config.js                    # Backend URL
+|-- .gitignore
+`-- README.md
 ```
 
-## 🖥️ The Web Interface
+## Batch CSV format
 
-### Single Prediction Form
-Users can enter patient data directly into the web interface. All 16 lifestyle features are captured, validated, and sent to the ML model.
+The CSV must have these 16 columns (extra columns like `NObeyesdad` are ignored):
 
-![Obesity Classification Form Screenshot](images/dashboard_form.png)
+`Gender, Age, Height, Weight, family_history_with_overweight, FAVC, FCVC, NCP, CAEC, SMOKE, CH2O, SCC, FAF, TUE, CALC, MTRANS`
 
-### Batch Prediction (CSV Upload)
-This view shows the bulk processing feature. Users select a CSV file of patient data, and the system processes it, stores the results in Supabase, and downloads a generated CSV file.
+- Rows with empty or invalid values are skipped.
+- The page shows a message like `Saved 500 predictions`.
 
-![Batch CSV Processing Screenshot](images/batch_results.png)
+## Run on your computer
 
-## 💻 Local Development & Testing
+You need **Python 3.11 or 3.12** (the model package `scikit-learn==1.5.1` does not install on Python 3.13). Check with `python --version`.
 
-This guide details how to set up and run the complete system on your own machine. Running locally is the fastest way to test new changes.
+### 1. Create and turn on a virtual environment
 
-### 1. Prerequisites
-- VS Code or your preferred editor
-- A Supabase account (or local PostgreSQL database)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running on your machine.
+Go into the backend folder:
+```bash
+cd backend
+```
 
-You are absolutely right, I completely skipped the most fundamental step—actually getting the code onto the machine. Good catch.
+Windows:
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
 
-Here is the revised **Local Development & Testing** section with the cloning and directory navigation steps included right at the beginning.
+Mac or Linux:
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
 
----
+You will see `(venv)` at the start of your terminal line when it is on.
 
-## 💻 Local Development & Testing
+### 2. Install the packages
+```bash
+pip install -r requirements.txt
+```
 
-This guide details how to set up and run the complete system on your own machine using Docker. Running locally via Docker Compose is the fastest and most reliable way to spin up both the frontend and backend environments simultaneously.
+### 3. Add your database URL
+Open `backend/.env` and put your real Supabase `DATABASE_URL`.
+(`backend/.env.example` shows the format.)
 
-### 1. Prerequisites
+### 4. Start the backend
+```bash
+uvicorn main:app --reload
+```
+Check it at http://localhost:8000/docs
 
-   * **Git** installed on your machine.
-   * **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** installed and running.
-   * A **Supabase** account (or local PostgreSQL database).
-   * VS Code or your preferred code editor.
+The first time it starts, it creates the `predictions` table in Supabase by itself.
 
-### 2. Clone the Repository
+### 5. Start the frontend
+1. Open `frontend/config.js` and use the local URL:
+   ```js
+   API_URL: "http://localhost:8000"
+   ```
+2. Open `frontend/index.html` in your browser.
 
-Download the project files to your local machine and navigate into the root directory.
-   * **Clone the repository:**
-      ```bash
-      git clone https://github.com/MalindaBotheju/obesity-classification-app.git
-      ```
-   * **Navigate into the project folder:**
-      ```bash
-      cd obesity-classification-app
-      ```
+### 6. Stop and turn off
+Press `Ctrl + C` to stop the server. Then turn off the virtual environment:
+```bash
+deactivate
+```
+Next time, just turn the environment on again (step 1) and run step 4.
 
-### 3. Backend Environment Setup
+## Automatic check (GitHub Actions)
 
-Add the database connection string so the backend can securely communicate with Supabase.
+The file `.github/workflows/check.yml` runs by itself every time you push to GitHub. It:
+1. Installs the packages from `backend/requirements.txt` (Python 3.11).
+2. Loads the model and makes one test prediction.
 
-  * **Create your local `.env` file:** Create a new file named `.env` inside the `backend/` directory.
-  * **Add your Supabase URL:** Paste your connection string into the file:  
-    ```bash
-      DATABASE_URL=postgresql://postgres:[PASSWORD]@db.[PROJECT_ID].supabase.co:5432/postgresDATABASE_URL=paste_your_real_string_here
-    ```
+If something is broken, the check fails and you will see a red mark on your commit. To see the result, open the **Actions** tab in your GitHub repo.
 
-### 4. Frontend Configuration
+It does not use your database or any password.
 
-Ensure your frontend is configured to communicate with the local backend container rather than the live production server.
+## Deploy
 
-  * **Open `frontend/configure.js`.**
-  * **Update the API Target:** Toggle the active configuration value so the JavaScript engine targets your local environment during execution:
-    ```javascript
-    const CONFIG = {
-        API_URL: "http://localhost:8000"
-    };
+### 1. Supabase (database)
+- Create a project, then go to **Project Settings -> Database** and copy the connection string.
+- Replace `[YOUR-PASSWORD]` with your database password.
 
-### 5. Running the Application
+### 2. Render (backend)
+1. Push this project to GitHub.
+2. On Render: **New -> Web Service** -> choose your repo.
+3. Set **Root Directory** to `backend`.
+4. Set **Runtime** to **Docker** (Render will use `backend/Dockerfile`).
+5. Add an environment variable: `DATABASE_URL` = your Supabase connection string.
+6. Deploy. Copy your URL, for example `https://your-app.onrender.com`.
 
-With Docker Compose configured, you can build and start the entire stack with a single command.
+### 3. Vercel (frontend)
+1. Open `frontend/config.js` and set your Render URL:
+   ```js
+   const CONFIG = {
+       API_URL: "https://your-app.onrender.com"
+   };
+   ```
+2. Push to GitHub.
+3. On Vercel: **Add New -> Project** -> choose your repo.
+4. Set **Root Directory** to `frontend`. Framework preset: **Other**. No build command.
+5. Deploy.
 
-  * **Open your terminal** in the root directory of the project (where the `docker-compose.yml` file is located).
-  * **Build and start the containers:**
-    
-    Windows:
-    ```bash
-    docker-compose up --build
-    ```
-
-    Linux:
-    ```bash
-    sudo docker-compose up --build
-    ```
-
-  * **Access the web app:** Once the containers are running, open your web browser and navigate to the frontend port mapped in your compose file. Typically they might be,
-    ```bash
-    http://localhost
-    ```
-    ```bash
-    http://localhost:3000
-    ```
-  * **Access the backend API documentation:**
-    ```bash
-    http://localhost:8000/docs
-    ```
-  * **Shutting down:** To stop the application, press `Ctrl + C` in your terminal, or open a new terminal in the root directory and run:
-    ```bash
-    docker-compose down
-    ```
+## Notes
+- Render's free plan sleeps when unused, so the first request can take about a minute.
+- If Supabase connection fails on Render, try the **Session pooler** connection string from Supabase (it works over IPv4).
+- Never upload your `.env` file or your `venv/` folder to GitHub. The `.gitignore` already blocks both.
+- Before you deploy, change `frontend/config.js` back to your Render URL.
